@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Do CK Metrics Measure Design Quality, or Class Size?</title>
+<meta name="description" content="CS6081 literature review, University of Limerick: four studies testing the Chidamber & Kemerer metrics against real faults.">
+<meta property="og:title" content="Do CK Metrics Measure Design Quality, or Class Size?">
+<meta property="og:description" content="CS6081 literature review, University of Limerick: four studies testing the Chidamber &amp; Kemerer metrics against real faults.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#862633">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --ink:#1D1B1C; --muted:#5F5A5A; --crim:#862633; --crim-d:#6C1D28; --card:#F0EEEE; --rule:#D9D5D5; --paper:#fff;
+  --yes:#1D4ED8; --yes-bg:#DCE7FB; --no:#B3261E; --no-bg:#F9DDDA; --mix:#955011; --mix-bg:#FBEBCF; --rev:#5B3A8C; --rev-bg:#E9E0F5; --na:#8A8580;
+  --shade:#F6EEF0; --amber:#F6C27A;
+  --sans:'Source Sans 3','Source Sans Pro',Arial,Helvetica,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.55}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+a{color:var(--crim)}
+a:focus-visible{outline:2px solid var(--crim);outline-offset:2px}
+p{margin:0}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* header */
+header .wrap{padding-block:24px 18px;display:flex;flex-direction:column;gap:10px}
+header .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-weight:900;font-size:clamp(34px,8vw,58px);line-height:1.02;letter-spacing:-.025em;text-wrap:balance}
+h1 span{color:var(--crim)}
+.authors{font-size:16px;font-weight:600}
+
+/* hero */
+.hero{background:var(--crim);color:#fff}
+.hero .wrap{padding-block:34px 32px;display:flex;flex-direction:column;gap:24px}
+.label{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.hero .finding{font-weight:400;font-size:clamp(28px,6.4vw,44px);line-height:1.12;letter-spacing:-.015em}
+.hero .finding b{font-weight:900}
+.hero .after{font-size:17px;color:#F3D5CB}
+.model{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;text-align:center;font-weight:700;font-size:17px;max-width:480px}
+.model .top{grid-column:1/-1;justify-self:center;padding:8px 30px;background:#fff;color:var(--crim);border-radius:999px;font-size:19px}
+.model .mid{grid-column:1/-1;font-size:14px;font-weight:400;font-style:italic;color:#F3D5CB;display:flex;justify-content:space-around}
+.model .box{padding:10px;border:2px solid #fff}
+.model .q{grid-column:1/-1;font-size:14px;color:var(--amber);font-weight:600}
+.hero .fig{font-size:13.5px;color:#F3D5CB}
+
+/* nav */
+nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+nav .wrap{display:flex;gap:20px;overflow-x:auto;padding-block:12px;scrollbar-width:none}
+nav a{flex:none;font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.02em}
+nav a:hover{color:var(--crim)}
+
+/* sections */
+main .wrap{padding-block:30px 56px;display:flex;flex-direction:column;gap:46px}
+section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:56px}
+h2{margin:0;padding-bottom:8px;border-bottom:3px solid var(--ink);font-weight:900;font-size:30px;letter-spacing:-.015em}
+h3{margin:0;font-weight:700;font-size:21px;line-height:1.2}
+.muted{color:var(--muted)}
+.rq{padding:16px 18px;background:var(--card);border-left:6px solid var(--crim)}
+.rq b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--crim)}
+.rq span{font-weight:700;font-size:20px;line-height:1.3}
+
+/* evidence trail = cards with tag */
+.trail{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.card{background:var(--card);padding:0 18px 16px;position:relative;margin-top:14px}
+.card.ctrl{background:var(--shade)}
+.tag{display:inline-block;position:relative;top:-14px;margin-bottom:-6px;padding:4px 10px;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.t-claim{background:var(--ink)}.t-yes{background:var(--yes)}.t-no{background:var(--no)}
+.t-mix{background:#fff;color:var(--mix);box-shadow:inset 0 0 0 2px var(--mix)}
+.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.yr{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--muted)}
+.big{font-weight:900;font-size:34px;line-height:1.05;letter-spacing:-.01em;margin:6px 0 4px}
+.v-yes{color:var(--yes)}.v-no{color:var(--no)}.v-mix{color:var(--mix)}.v-ink{color:var(--ink)}
+.card .gap{display:block;margin-top:8px;padding-top:8px;border-top:1px solid var(--rule);font-size:15px;font-weight:600;font-style:italic;color:var(--crim)}
+.trust{font-size:14.5px;color:var(--muted);margin-top:6px}
+.trust b{color:var(--ink);letter-spacing:.08em}
+.legend{font-size:14px;font-style:italic;color:var(--muted)}
+
+/* studies */
+.study{display:flex;flex-direction:column;gap:10px;padding:18px 0;border-top:1px solid var(--rule)}
+.study.ctrl{background:var(--shade);padding:18px;border-top:0}
+.study header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--crim)}
+dl{display:grid;grid-template-columns:70px 1fr;gap:4px 12px;margin:0;font-size:17px}
+dt{font-weight:700;color:var(--muted)}dd{margin:0}
+
+/* table */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:16px}
+th,td{padding:7px 8px;text-align:center;border-bottom:1px solid var(--rule)}
+th{font-weight:700;border-bottom:2px solid var(--ink);font-size:15px}
+td:first-child,th:first-child{text-align:left;font-family:var(--mono);font-weight:600}
+.sh{background:var(--shade)}
+.pill{display:block;padding:3px 6px;border-radius:4px;font-weight:700;font-size:15px}
+.p-y{background:var(--yes-bg);color:var(--yes)}.p-n{background:var(--no-bg);color:var(--no)}
+.p-m{background:var(--mix-bg);color:var(--mix)}.p-r{background:var(--rev-bg);color:var(--rev)}
+.p-x{color:var(--na);font-weight:400}
+tr.fault td{font-family:var(--sans);font-style:italic;font-size:14px;font-weight:400;color:var(--muted);border-bottom:0}
+tr.fault td:first-child{font-style:normal;font-weight:700;color:var(--ink)}
+
+/* critique */
+.validity{display:flex;flex-direction:column;gap:12px}
+.validity div{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:baseline}
+.validity b{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--crim)}
+@media (max-width:560px){.validity div{grid-template-columns:1fr;gap:0}}
+.verdict{padding:22px;background:var(--ink);color:#fff;display:flex;flex-direction:column;gap:8px}
+.verdict strong{font-size:24px;line-height:1.2}
+.verdict span{color:#E6D8CC;font-size:17px}
+
+ol.refs{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;font-size:15.5px}
+ol.refs a{word-break:break-all}
+footer .wrap{padding-block:22px 34px;border-top:1px solid var(--rule);font-size:14px;color:var(--muted)}
+
+@media (min-width:760px){
+  .trail{grid-template-columns:repeat(2,1fr)}
+  .trail li:last-child{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="row"><div class="kicker">CS6081 Research Methods · Literature Review</div><div class="kicker">University of Limerick</div></div>
+    <h1>Do CK metrics measure design quality, or <span>class size?</span></h1>
+    <div class="authors">Jagruti Badgujar · Chirag Aggarwal · Dhruv Punj · Snehal Patil</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="label">What we found</div>
+    <p class="finding"><b>CK metrics</b> predict faulty classes, but <b>only until class size is controlled.</b></p>
+    <p class="after">After that, the evidence splits.</p>
+    <div class="model" role="img" aria-label="Class size raises both CK metric scores and faults, so the link between them may be spurious">
+      <div class="top">Class size</div>
+      <div class="mid"><span>raises scores ↙</span><span>↘ raises faults</span></div>
+      <div class="box">CK metric</div>
+      <div class="box">Faults</div>
+      <div class="q">? real design effect</div>
+    </div>
+    <p class="fig"><b>Fig. 1</b> Size can drive both. In CK's own data, RFC and WMC correlated at 0.9.</p>
+  </div>
+</div>
+
+<nav aria-label="Sections"><div class="wrap">
+  <a href="#question">Question</a><a href="#trail">Evidence trail</a><a href="#studies">Studies</a><a href="#metrics">Metrics</a><a href="#critique">Critique</a><a href="#refs">References</a>
+</div></nav>
+
+<main><div class="wrap">
+
+  <section id="question">
+    <h2>The question</h2>
+    <p>Chidamber &amp; Kemerer (1994) proposed six design metrics for object-oriented classes: <b>WMC</b> (weighted methods), <b>DIT</b> (inheritance depth), <b>NOC</b> (number of children), <b>CBO</b> (coupling), <b>RFC</b> (response set) and <b>LCOM</b> (lack of cohesion). They checked them against measurement theory but never against real faults.</p>
+    <div class="rq"><b>Research question</b><span>Do CK metrics predict faulty classes because of design, or because they track class size?</span></div>
+  </section>
+
+  <section id="trail">
+    <h2>The evidence trail</h2>
+    <p class="legend">Each study answers a gap left by the one before. Shaded cards controlled for class size.</p>
+    <ol class="trail">
+      <li class="card"><span class="tag t-claim">The claim</span>
+        <div class="top"><h3>Chidamber &amp; Kemerer</h3><span class="yr">1994</span></div>
+        <div class="big v-ink">6 metrics</div>
+        <p>Six design metrics, checked against theory on 2,093 classes at two firms.</p>
+        <span class="gap">Gap: never tested on faults</span></li>
+      <li class="card"><span class="tag t-yes">Yes</span>
+        <div class="top"><h3>Basili et al.</h3><span class="yr">1996</span></div>
+        <div class="big v-yes">5 of 6</div>
+        <p>8 student teams, 180 C++ classes. Five metrics predict fault-prone classes.</p>
+        <p class="trust">Trust <b>●○○</b> students; size ignored</p></li>
+      <li class="card ctrl"><span class="tag t-no">No</span>
+        <div class="top"><h3>El Emam et al.</h3><span class="yr">2001</span></div>
+        <div class="big v-no">0 survive</div>
+        <p>Ericsson, 174 C++ classes. Control for size and no metric predicts faults.</p>
+        <p class="trust">Trust <b>●●○</b> rigorous; one system</p></li>
+      <li class="card ctrl"><span class="tag t-mix">Partly</span>
+        <div class="top"><h3>Subramanyam &amp; Krishnan</h3><span class="yr">2003</span></div>
+        <div class="big v-mix">C++ only</div>
+        <p>706 C++/Java classes, size controlled. WMC and CBO matter in C++, not Java.</p>
+        <p class="trust">Trust <b>●●○</b> 3 metrics; one company</p></li>
+      <li class="card"><span class="tag t-yes">Yes · CBO</span>
+        <div class="top"><h3>Gyimóthy et al.</h3><span class="yr">2005</span></div>
+        <div class="big v-yes">CBO best</div>
+        <p>Mozilla, 3,192 classes. CBO best; lines of code come close (R² .34 vs .43).</p>
+        <p class="trust">Trust <b>●●○</b> large; size not controlled</p></li>
+    </ol>
+  </section>
+
+  <section id="studies">
+    <h2>The studies in detail</h2>
+    <article class="study">
+      <header><h3>Basili, Briand &amp; Melo (1996)</h3></header>
+      <dl>
+        <dt>Data</dt><dd>8 student teams built the same C++ system; 180 classes</dd>
+        <dt>Found</dt><dd>Five metrics predict fault-prone classes; DIT, RFC and CBO strongest. LCOM not significant. NOC worked in reverse. CK metrics beat code metrics (88% vs 83% completeness).</dd>
+        <dt>Limits</dt><dd>Student programmers, small systems, size not controlled.</dd>
+      </dl>
+    </article>
+    <article class="study ctrl">
+      <header><h3>El Emam et al. (2001)</h3><span class="chip">SIZE CONTROLLED</span></header>
+      <dl>
+        <dt>Data</dt><dd>Ericsson C++ telecoms framework; 174 classes, 70 with field-failure faults</dd>
+        <dt>Found</dt><dd>WMC, CBO and RFC predict faults until class size is controlled. Then no metric does.</dd>
+        <dt>Limits</dt><dd>One system. Evanco (2003) argues size is not a valid confounder.</dd>
+      </dl>
+    </article>
+    <article class="study ctrl">
+      <header><h3>Subramanyam &amp; Krishnan (2003)</h3><span class="chip">SIZE CONTROLLED</span></header>
+      <dl>
+        <dt>Data</dt><dd>B2C e-commerce suite; 405 C++ and 301 Java classes</dd>
+        <dt>Found</dt><dd>After size control, WMC and CBO still explain defects in C++ but not Java. Deeper inheritance meant fewer defects.</dd>
+        <dt>Limits</dt><dd>Only WMC, CBO and DIT tested; skewed Java sample; one company.</dd>
+      </dl>
+    </article>
+    <article class="study">
+      <header><h3>Gyimóthy, Ferenc &amp; Siket (2005)</h3></header>
+      <dl>
+        <dt>Data</dt><dd>Mozilla 1.6; 3,192 C++ classes matched to Bugzilla reports</dd>
+        <dt>Found</dt><dd>CBO is the best predictor. Lines of code come close (R² 0.34 vs 0.43 for all metrics). DIT untrustworthy, NOC unusable.</dd>
+        <dt>Limits</dt><dd>One system; size compared, not controlled.</dd>
+      </dl>
+    </article>
+  </section>
+
+  <section id="metrics">
+    <h2>Where the studies disagree</h2>
+    <p class="muted">Shaded columns controlled for class size (*). Each study also counted a different kind of fault.</p>
+    <div class="scroll"><table>
+      <tr><th></th><th>Basili 1996</th><th class="sh">El Emam 2001*</th><th class="sh">Subramanyam 2003*</th><th>Gyimóthy 2005</th></tr>
+      <tr><td>WMC</td><td><span class="pill p-y">Yes</span></td><td class="sh"><span class="pill p-n">No</span></td><td class="sh"><span class="pill p-m">C++ only</span></td><td><span class="pill p-y">Yes</span></td></tr>
+      <tr><td>DIT</td><td><span class="pill p-y">Yes</span></td><td class="sh"><span class="pill p-n">No</span></td><td class="sh"><span class="pill p-r">Reversed</span></td><td><span class="pill p-m">Weak</span></td></tr>
+      <tr><td>NOC</td><td><span class="pill p-r">Reversed</span></td><td class="sh p-x">–</td><td class="sh p-x">–</td><td><span class="pill p-n">No</span></td></tr>
+      <tr><td>CBO</td><td><span class="pill p-y">Yes</span></td><td class="sh"><span class="pill p-n">No</span></td><td class="sh"><span class="pill p-m">C++ only</span></td><td><span class="pill p-y">Best</span></td></tr>
+      <tr><td>RFC</td><td><span class="pill p-y">Yes</span></td><td class="sh"><span class="pill p-n">No</span></td><td class="sh p-x">–</td><td><span class="pill p-y">Yes</span></td></tr>
+      <tr><td>LCOM</td><td><span class="pill p-n">No</span></td><td class="sh"><span class="pill p-n">No</span></td><td class="sh p-x">–</td><td><span class="pill p-y">Yes</span></td></tr>
+      <tr class="fault"><td>Fault =</td><td>found in testing</td><td class="sh">field failure</td><td class="sh">customer defect</td><td>Bugzilla report</td></tr>
+    </table></div>
+    <p class="legend">– means not tested.</p>
+  </section>
+
+  <section id="critique">
+    <h2>Why it's not settled</h2>
+    <div class="validity">
+      <div><b>Construct</b><span>“Fault” means four different things across the studies.</span></div>
+      <div><b>Internal</b><span>Class size drives both scores and faults (El Emam et al., 2001). Only 2 of 4 studies control for it, and they disagree.</span></div>
+      <div><b>External</b><span>Each study analyses a single system; one uses student code.</span></div>
+      <div><b>Conclusion</b><span>Logistic regression, linear regression and machine learning give results that are not directly comparable.</span></div>
+    </div>
+    <div class="verdict"><strong>CK metrics are not proven valid independent of class size.</strong><span>The study that would settle it: many systems, size controlled, one shared definition of a fault.</span></div>
+  </section>
+
+  <section id="refs">
+    <h2>References</h2>
+    <ol class="refs">
+      <li>Basili, V.R., Briand, L.C. and Melo, W.L. (1996) 'A validation of object-oriented design metrics as quality indicators', <i>IEEE Transactions on Software Engineering</i>, 22(10), 751–761. doi: <a href="https://doi.org/10.1109/32.544352">10.1109/32.544352</a></li>
+      <li>Chidamber, S.R. and Kemerer, C.F. (1994) 'A metrics suite for object oriented design', <i>IEEE Transactions on Software Engineering</i>, 20(6), 476–493. doi: <a href="https://doi.org/10.1109/32.295895">10.1109/32.295895</a></li>
+      <li>El Emam, K., Benlarbi, S., Goel, N. and Rai, S.N. (2001) 'The confounding effect of class size on the validity of object-oriented metrics', <i>IEEE Transactions on Software Engineering</i>, 27(7), 630–650. doi: <a href="https://doi.org/10.1109/32.935855">10.1109/32.935855</a></li>
+      <li>Gyimóthy, T., Ferenc, R. and Siket, I. (2005) 'Empirical validation of object-oriented metrics on open source software for fault prediction', <i>IEEE Transactions on Software Engineering</i>, 31(10), 897–910. doi: <a href="https://doi.org/10.1109/TSE.2005.112">10.1109/TSE.2005.112</a></li>
+      <li>Subramanyam, R. and Krishnan, M.S. (2003) 'Empirical analysis of CK metrics for object-oriented design complexity: implications for software defects', <i>IEEE Transactions on Software Engineering</i>, 29(4), 297–310. doi: <a href="https://doi.org/10.1109/TSE.2003.1191795">10.1109/TSE.2003.1191795</a></li>
+    </ol>
+  </section>
+
+</div></main>
+
+<footer><div class="wrap">Companion page to our CS6081 poster, University of Limerick. All figures are taken from the five papers above.</div></footer>
+</body>
+</html>
