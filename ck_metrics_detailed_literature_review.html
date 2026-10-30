@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CK Metrics and Software Fault Prediction | Detailed Literature Review</title>
+<meta name="description" content="A detailed literature review of four empirical studies examining CK object-oriented design metrics, class size and software fault prediction.">
+<style>
+:root{--ink:#20242b;--muted:#606b76;--red:#842236;--red2:#6e1b2b;--navy:#263747;--paper:#fff;--bg:#f3f5f7;--line:#dce1e6;--soft:#f7f0f2;--blue:#e9effb;--green:#eaf3ed;--gold:#fbf3df;--max:1120px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 Arial,Helvetica,sans-serif}
+a{color:var(--red);text-decoration:none}a:hover{text-decoration:underline}
+header{background:var(--navy);color:#fff;padding:46px 22px 38px}
+.inner,main,.footin{max-width:var(--max);margin:auto;padding-left:24px;padding-right:24px}
+.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:#d7c4c9}
+h1{font-size:clamp(32px,5vw,54px);line-height:1.08;letter-spacing:-.04em;margin:13px 0 14px}
+header p{max-width:800px;color:#e1e7ed;margin:0;font-size:17px}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
+nav .inner{display:flex;gap:22px;overflow-x:auto;white-space:nowrap}
+nav a{padding:14px 0;display:block;color:#35414c;font-size:12px;font-weight:800;border-bottom:3px solid transparent}
+nav a:hover{border-color:var(--red);text-decoration:none;color:var(--red)}
+main{padding-top:34px;padding-bottom:55px}
+section{margin:0 0 38px;scroll-margin-top:75px}
+h2{font-size:27px;letter-spacing:-.025em;line-height:1.2;margin:0 0 15px}
+h3{font-size:19px;line-height:1.3;margin:22px 0 8px}
+h4{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin:0 0 8px}
+p{margin:0 0 13px}
+.lead{font-size:18px;color:#45515d;max-width:900px}
+.callout{background:#fff;border:1px solid var(--line);border-left:5px solid var(--red);padding:20px 22px;border-radius:7px;margin:18px 0}
+.callout strong{color:var(--red)}
+.metricgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.metric{background:#fff;border:1px solid var(--line);border-radius:8px;padding:17px}
+.metric h3{font-size:17px;margin:0 0 7px}
+.metric p{font-size:14px;margin:0;color:#4f5b66}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 17px}
+.pill{background:#e9edf1;color:#43505c;padding:5px 9px;border-radius:4px;font-size:11px;font-weight:800}
+.study{background:#fff;border:1px solid var(--line);border-radius:10px;margin:18px 0;padding:24px}
+.studyhead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:16px}
+.studyhead h3{font-size:23px;margin:0 0 5px}
+.studyhead .year{font-weight:800;color:var(--red);white-space:nowrap}
+.authors{font-size:13px;color:var(--muted)}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:#f6f7f8;padding:15px 17px;border-radius:7px}
+.panel h4{margin-bottom:6px}
+.panel p:last-child{margin-bottom:0}
+ul,ol{padding-left:22px;margin:8px 0 14px}
+li{padding-left:3px;margin:5px 0}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:690px;font-size:13px}
+th,td{padding:11px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#eef1f4;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;padding:3px 7px;border-radius:3px;font-size:11px;font-weight:800}
+.yes{background:var(--green);color:#276244}.mixed{background:var(--gold);color:#765a0d}.no{background:#f5e5e8;color:#8a2034}
+.darkbox{background:var(--navy);color:#fff;padding:24px;border-radius:9px}
+.darkbox h2,.darkbox h3{color:#fff}.darkbox p,.darkbox li{color:#e2e8ee}
+.refs{background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px}
+.refs li{font-size:13px;margin-bottom:10px;overflow-wrap:anywhere}
+.small{font-size:12px;color:var(--muted)}
+footer{background:#fff;border-top:1px solid var(--line);padding:19px 0;color:var(--muted);font-size:12px}
+@media(max-width:760px){.metricgrid{grid-template-columns:1fr 1fr}.twocol{grid-template-columns:1fr}.study{padding:18px}.studyhead{flex-direction:column;gap:5px}}
+@media(max-width:480px){.metricgrid{grid-template-columns:1fr}.inner,main,.footin{padding-left:17px;padding-right:17px}header{padding-top:35px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="inner">
+ <div class="eyebrow">CS6081 · Research Methods · Literature Review</div>
+ <h1>CK Metrics, Class Size and Software Fault Prediction</h1>
+ <p>A detailed review of the research behind the question: when object-oriented design metrics are associated with software faults, are they measuring design characteristics—or are they partly reflecting how large a class is?</p>
+</div></header>
+<nav><div class="inner">
+ <a href="#overview">Background</a><a href="#metrics">CK metrics</a><a href="#basili">Basili 1996</a><a href="#elemam">El Emam 2001</a><a href="#subramanyam">Subramanyam 2003</a><a href="#gyimothy">Gyimóthy 2005</a><a href="#synthesis">Synthesis</a><a href="#gaps">Research gaps</a><a href="#references">References</a>
+</div></nav>
+<main>
+<section id="overview">
+ <h2>1. Research background</h2>
+ <p class="lead">Object-oriented software divides functionality across classes and connects those classes through method calls, attributes and inheritance. CK metrics were proposed to quantify selected structural properties of this design. Empirical validation asks whether those measurements are associated with an external quality outcome, such as whether a class is fault-prone or how many defects are attributed to it.</p>
+ <div class="callout"><strong>The central issue:</strong> a large class may have more methods, dependencies and opportunities for defects. If size and a CK metric move together, a metric–fault association may partly reflect size. El Emam et al. explicitly investigate this confounding possibility; Subramanyam and Krishnan include size in their models; the other studies provide different kinds of evidence.</div>
+ <h3>What does “predicting faults” mean in these papers?</h3>
+ <p>The studies do not all use the same outcome. Basili et al. use the probability of fault detection during acceptance testing as an indicator of fault-proneness. El Emam et al. use whether a class had a fault attributable to a field failure. Subramanyam and Krishnan analyse class-level defect counts, including field defects and defects found during customer acceptance testing. Gyimóthy et al. associate classes with bugs reported and corrected in Mozilla’s Bugzilla database and examine fault-proneness prediction.</p>
+ <p>These outcomes are related, but not interchangeable. A binary label (fault-prone or not) answers a different question from a count of defects. Field failures also differ from faults found during testing.</p>
+</section>
+
+<section id="metrics">
+ <h2>2. Understanding the six CK metrics</h2>
+ <p class="lead">The following descriptions summarise the operational meanings used in the reviewed literature. Exact counting rules can vary by language and by study, so the metric name alone does not guarantee identical measurement.</p>
+ <div class="metricgrid">
+  <article class="metric"><h3>WMC · Weighted Methods per Class</h3><p>Measures the number or weighted complexity of methods in a class. In Basili et al.’s C++ study, WMC was operationalised as the number of member functions and operators defined in the class, with specified exclusions.</p></article>
+  <article class="metric"><h3>DIT · Depth of Inheritance Tree</h3><p>Measures the depth of a class in its inheritance hierarchy. Basili et al. describe it as the number of ancestors in their C++ setting; other definitions express it as the longest path to the root.</p></article>
+  <article class="metric"><h3>NOC · Number of Children</h3><p>Counts the direct descendants of a class. It describes how many classes inherit directly from that class.</p></article>
+  <article class="metric"><h3>CBO · Coupling Between Object Classes</h3><p>Counts the number of other classes to which a class is coupled. Coupling captures dependencies created when classes use one another’s methods or attributes.</p></article>
+  <article class="metric"><h3>RFC · Response for a Class</h3><p>Counts the methods that may be executed in response to a message received by an object: the class’s methods and methods they invoke.</p></article>
+  <article class="metric"><h3>LCOM · Lack of Cohesion in Methods</h3><p>Measures lack of shared instance-variable use among method pairs. The operational formula and treatment of negative values can vary; Basili et al. set negative results to zero.</p></article>
+ </div>
+ <p class="small">Note: The reviewed papers sometimes use adapted or language-specific definitions. For example, Basili et al. explicitly discuss C++-specific counting decisions. Subramanyam and Krishnan analyse only WMC, CBO and DIT from the CK suite.</p>
+</section>
+
+<section id="basili">
+ <article class="study">
+  <div class="studyhead"><div><h3>3. A Validation of Object-Oriented Design Metrics as Quality Indicators</h3><div class="authors">Victor R. Basili, Lionel C. Briand and Walcelio L. Melo</div></div><div class="year">1996</div></div>
+  <div class="meta"><span class="pill">Eight student teams</span><span class="pill">C++</span><span class="pill">Fault-proneness</span><span class="pill">Early validation study</span></div>
+  <h4>Research objective</h4>
+  <p>The paper investigates whether the CK object-oriented design metrics can identify fault-prone classes and therefore act as early quality indicators. The motivation is practical: testing effort is expensive, so a useful early indicator could help focus verification on classes more likely to contain faults.</p>
+  <h4>Study design and dataset</h4>
+  <p>The authors collected data from eight medium-sized information-management systems developed from identical requirements. The projects used a sequential life-cycle model, an object-oriented analysis/design method and C++. The work was carried out in a university setting. Students were grouped into eight teams of three, with a blocking procedure intended to make team experience more comparable. The paper reports 180 classes in the project dataset.</p>
+  <div class="twocol">
+   <div class="panel"><h4>Outcome variable</h4><p>Probability of fault detection during acceptance testing was used as the measure of class fault-proneness. The authors note that faults were detected in 36% of classes and that 84% of classes contained fewer than three faults, making a simple fault-count measure low in variability.</p></div>
+   <div class="panel"><h4>Metric operationalisation</h4><p>All six CK metrics were considered. The paper explains C++-specific adaptations. For example, WMC counted member functions and operators defined in a class, excluding friend operators and inherited functions.</p></div>
+  </div>
+  <h4>Hypotheses and analysis</h4>
+  <p>The authors stated an expected relationship between each metric and fault-proneness. Examples include higher WMC indicating greater class complexity, greater DIT indicating more inherited definitions, and higher coupling indicating more dependencies. They used empirical and quantitative statistical analysis to assess whether the metrics were associated with the selected fault-proneness measure.</p>
+  <h4>Reported findings</h4>
+  <ul>
+   <li>Several CK metrics appeared useful for predicting fault-prone classes during early life-cycle phases.</li>
+   <li>On this dataset, the CK metrics were reported as better predictors than traditional code metrics, which can only be collected later in development.</li>
+   <li>The results were not uniformly positive for every metric; the paper discusses both advantages and drawbacks of the suite.</li>
+  </ul>
+  <h4>Limitations and interpretation</h4>
+  <p>The authors acknowledge the university/student setting and the need to adapt metric definitions to C++. They also explain that the small variation in fault counts influenced their choice of dependent variable. Importantly for the present review, this study did not make class size the central confounding variable in the way El Emam et al. later did. Its findings therefore establish an early association in this dataset, not proof that each metric contributes predictive information independently of size.</p>
+  <p><a href="https://doi.org/10.1109/32.544352" target="_blank" rel="noopener">Read the original paper (DOI) ↗</a></p>
+ </article>
+</section>
+
+<section id="elemam">
+ <article class="study">
+  <div class="studyhead"><div><h3>4. The Confounding Effect of Class Size on the Validity of Object-Oriented Metrics</h3><div class="authors">Khaled El Emam, Saïda Benlarbi, Nishith Goel and Shesh N. Rai</div></div><div class="year">2001</div></div>
+  <div class="meta"><span class="pill">Industrial C++ system</span><span class="pill">174 classes</span><span class="pill">Size confounding</span><span class="pill">Field failures</span></div>
+  <h4>Research objective</h4>
+  <p>The authors argue that previous validation studies often tested metrics without controlling for class size. They investigate whether size can create a misleading association between a design metric and fault-proneness. Their paper first motivates the possibility of confounding, then describes a methodology to identify it, and finally applies that methodology to a large C++ telecommunications framework.</p>
+  <h4>Why size can confound the result</h4>
+  <p>Class size can be associated with CK measurements such as method count and coupling. At the same time, larger classes may have more opportunities for faults. If both the metric and the fault outcome are associated with size, a simple metric–fault relationship may appear even when the metric does not have an independent relationship with faults after size is considered.</p>
+  <div class="panel"><h4>Outcome variable</h4><p>Fault-proneness was defined as the occurrence of a fault attributable to a field failure. This is a binary outcome: whether a class had such a fault, rather than the total number of defects.</p></div>
+  <h4>Study design and method</h4>
+  <p>The empirical study used a large C++ telecommunications framework and considered the CK metrics together with a subset of the Lorenz and Kidd metrics. The authors compare results before and after controlling for size. The article’s key methodological point is that validation should account for a potential confounder rather than rely only on a one-metric-at-a-time association.</p>
+  <h4>Reported findings</h4>
+  <ul>
+   <li>Before size was controlled, the results resembled earlier validation studies: metrics expected to be validated were associated with fault-proneness.</li>
+   <li>After controlling for size, none of the metrics studied remained associated with fault-proneness in this dataset.</li>
+   <li>The authors interpret this as evidence of a strong size-confounding effect and recommend re-examining previous validation studies and controlling for size in future work.</li>
+  </ul>
+  <h4>Limitations and interpretation</h4>
+  <p>The result comes from one industrial C++ framework and uses field-failure incidence as the fault outcome. It should not automatically be generalised to all systems, languages or fault definitions. The finding challenges claims of independent predictive validity, but it does not establish that CK metrics are useless in every context.</p>
+  <p><a href="https://doi.org/10.1109/32.935855" target="_blank" rel="noopener">Read the original paper (DOI) ↗</a></p>
+ </article>
+</section>
+
+<section id="subramanyam">
+ <article class="study">
+  <div class="studyhead"><div><h3>5. Empirical Analysis of CK Metrics for Object-Oriented Design Complexity: Implications for Software Defects</h3><div class="authors">Ramanath Subramanyam and M. S. Krishnan</div></div><div class="year">2003</div></div>
+  <div class="meta"><span class="pill">706 classes</span><span class="pill">405 C++ / 301 Java</span><span class="pill">Size included</span><span class="pill">Defect counts</span></div>
+  <h4>Research objective</h4>
+  <p>This study examines the relationships between object-oriented design complexity and software defects, with particular attention to class size and whether the relationships differ between C++ and Java. It focuses on three CK metrics: WMC, CBO and DIT.</p>
+  <h4>Study design and dataset</h4>
+  <p>The authors collected data on 706 classes from the same application suite: 405 C++ classes and 301 Java classes. The system was an industrial e-commerce application suite. The classes were intended to have broadly comparable business functionality, although some language-specific functionality differed. The system had been in the field for 80 days before data collection.</p>
+  <div class="twocol">
+   <div class="panel"><h4>Defect measure</h4><p>Class-level defect counts included field defects reported by customers and defects found during customer acceptance testing. The origin of each defect was traced from defect-resolution logs and checked with project leads and the release manager.</p></div>
+   <div class="panel"><h4>Predictors</h4><p>Size (LOC), WMC, CBO and DIT were included. The model also included a CBO × DIT interaction term, allowing the effect of coupling to vary with inheritance depth.</p></div>
+  </div>
+  <h4>Statistical method</h4>
+  <p>The authors found that a simple linear specification was not appropriate for the defect data. They used a Box–Cox procedure and selected a reciprocal transformation, modelling 1/(1 + defects) as the dependent variable. Ordinary least squares regression models were estimated separately for C++ and Java. A Chow test rejected pooling the two language samples, supporting separate models.</p>
+  <h4>Reported findings</h4>
+  <ul>
+   <li>Class size was a significant predictor in both language samples.</li>
+   <li>WMC was significant for C++ but not for Java in the reported models.</li>
+   <li>The net effect of CBO was positive for C++ and negative for Java when evaluated at the sample means; the authors therefore found support for their CBO hypothesis for C++ but not Java.</li>
+   <li>The net effect of increasing DIT was a decrease in defects in both samples, contrary to the study’s expected positive relationship.</li>
+   <li>The interaction between CBO and DIT matters: interpreting the first-order coefficients alone would be misleading.</li>
+  </ul>
+  <h4>Limitations and interpretation</h4>
+  <p>The authors note that programmer- and application-specific differences cannot be ruled out. The Java sample is skewed, with relatively few classes at higher DIT values, and the study data come from a single project/application suite. They recommend validation on a richer Java sample and across multiple projects. The findings demonstrate that results can be language-dependent even when size is included in the model.</p>
+  <p><a href="https://doi.org/10.1109/TSE.2003.1191795" target="_blank" rel="noopener">Read the original paper (DOI) ↗</a></p>
+ </article>
+</section>
+
+<section id="gyimothy">
+ <article class="study">
+  <div class="studyhead"><div><h3>6. Empirical Validation of Object-Oriented Metrics on Open Source Software for Fault Prediction</h3><div class="authors">Tibor Gyimóthy, Rudolf Ferenc and István Siket</div></div><div class="year">2005</div></div>
+  <div class="meta"><span class="pill">Mozilla C++</span><span class="pill">3,000+ classes</span><span class="pill">Bugzilla</span><span class="pill">Regression + machine learning</span></div>
+  <h4>Research objective</h4>
+  <p>The paper investigates whether CK metrics can be calculated from a large open-source system and used to predict fault-proneness. It also studies how predicted fault-proneness changes over several Mozilla releases.</p>
+  <h4>Data collection and tooling</h4>
+  <p>The authors analyse Mozilla, an open-source web and email suite written in C++. They use the Columbus reverse-engineering framework and a compiler-wrapping approach to extract source-code facts and calculate metrics without modifying the source code or makefiles. Bug reports are collected from Mozilla’s Bugzilla database and associated with classes in the source code.</p>
+  <p>The study covers Mozilla versions 1.0 to 1.6. Version 1.6 contains more than 3,000 classes. The authors describe filtering Bugzilla reports and associating bugs with source-code classes as part of constructing the analysis dataset.</p>
+  <h4>Analysis methods</h4>
+  <p>The paper uses statistical methods, including logistic and linear regression, as well as machine-learning methods: decision trees and neural networks. For machine learning, the authors examine two classifications: classes with no bugs versus classes with at least one bug, and a four-level classification based on bug counts. They use 10-fold cross-validation for learning and testing.</p>
+  <h4>Reported findings</h4>
+  <ul>
+   <li>CBO was the strongest metric for predicting fault-proneness in the study.</li>
+   <li>WMC was significant in the regression analyses.</li>
+   <li>LOC was also one of the best predictors; its precision was good, while CBO performed better in the reported comparison.</li>
+   <li>NOC was not useful in the learning analysis: the models predicted every class as nonfaulty when NOC was used alone.</li>
+   <li>DIT had limited usefulness; its completeness values were low compared with the other metrics.</li>
+   <li>The multivariate logistic model selected CBO, DIT, WMC and LOC; the multivariate linear model selected CBO, WMC, LOC, DIT and RFC.</li>
+  </ul>
+  <h4>Mozilla evolution analysis</h4>
+  <p>Across versions, the authors observed that several metric values and the number of bugs increased around Mozilla 1.2, while the number of classes decreased. They suggested that a substantial source-code reorganisation may have contributed, but explicitly noted that other factors could also influence reported and fixed bugs. They caution that aggregated averages do not support fully reliable conclusions about the underlying distributions.</p>
+  <h4>Limitations and interpretation</h4>
+  <p>This is a large, real open-source case study, but it remains one software system. Its results are not a direct replication of El Emam et al.’s size-control methodology. The paper’s comparison across versions is affected by changes in the software and bug database. The authors also test models trained on Mozilla 1.6 against version 1.0; precision and completeness decrease, although correctness remains good. This indicates that predictive performance can shift across versions.</p>
+  <p><a href="https://doi.org/10.1109/TSE.2005.112" target="_blank" rel="noopener">Read the original paper (DOI) ↗</a></p>
+ </article>
+</section>
+
+<section id="synthesis">
+ <h2>7. Cross-paper synthesis</h2>
+ <p class="lead">The four studies do not produce one universal answer. Their conclusions depend on what they measure, which system and language they analyse, and how they model size and defects.</p>
+ <div class="tablewrap">
+  <table>
+   <thead><tr><th>Study</th><th>System / sample</th><th>Fault outcome</th><th>How size is handled</th><th>Core contribution</th></tr></thead>
+   <tbody>
+    <tr><td>Basili et al. (1996)</td><td>Eight C++ information-management projects; 180 classes</td><td>Probability of fault detection in acceptance testing</td><td>Not the central confounder tested</td><td>Early empirical support for several CK metrics as early quality indicators.</td></tr>
+    <tr><td>El Emam et al. (2001)</td><td>Industrial C++ telecommunications framework; 174 classes</td><td>Binary fault-proneness from field failures</td><td>Explicitly examines and controls size</td><td>Metric associations disappear after size control in this dataset.</td></tr>
+    <tr><td>Subramanyam &amp; Krishnan (2003)</td><td>Industrial e-commerce suite; 405 C++ and 301 Java classes</td><td>Class-level defect count</td><td>Size included in separate language models</td><td>Size matters in both languages; WMC and CBO effects differ by language.</td></tr>
+    <tr><td>Gyimóthy et al. (2005)</td><td>Mozilla C++; 3,000+ classes in version 1.6</td><td>Bug counts / fault-proneness linked to Bugzilla</td><td>LOC is compared as a predictor; not the same size-control design</td><td>CBO strongest; WMC and LOC also informative; NOC weak.</td></tr>
+   </tbody>
+  </table>
+ </div>
+ <h3>Why the findings are not directly comparable</h3>
+ <ul>
+  <li><strong>Different dependent variables:</strong> probability of detection, field-failure incidence, defect count and Bugzilla-derived bug data capture different aspects of software faults.</li>
+  <li><strong>Different systems:</strong> student-developed information systems, a telecommunications framework, an industrial e-commerce suite and a large open-source project have different development contexts.</li>
+  <li><strong>Different languages:</strong> the studies use C++ or compare C++ with Java. Metric operationalisation and design practices may differ by language.</li>
+  <li><strong>Different analysis designs:</strong> the papers use different regression and machine-learning methods. Statistical significance, prediction precision and defect-count modelling are not the same evaluation.</li>
+  <li><strong>Different size treatment:</strong> El Emam et al. explicitly test confounding; Subramanyam and Krishnan include size in separate models; Gyimóthy et al. compare LOC as a predictor but do not replicate the same confounder-control design.</li>
+ </ul>
+ <div class="callout"><strong>Careful interpretation:</strong> It would be too strong to conclude that “only CBO survives class-size control in any study.” The reviewed papers do not establish that universal statement. The safer conclusion is that CK metric validity is context-dependent and must be tested with size, language, system and fault definition made explicit.</div>
+</section>
+
+<section id="gaps">
+ <div class="darkbox">
+  <h2>8. Research gaps and future directions</h2>
+  <p>The reviewed evidence points to several opportunities for stronger validation. These are implications drawn from the limitations and differences identified in the papers, rather than claims that any one paper has already tested all of them.</p>
+  <ol>
+   <li><strong>Replicate across multiple systems.</strong> A result from one industrial or open-source system may not generalise. Future work should include different organisations, domains and project types.</li>
+   <li><strong>Control for size consistently.</strong> Include a clear size measure and report both unadjusted and adjusted relationships so the independent contribution of a design metric can be assessed.</li>
+   <li><strong>Standardise fault definitions.</strong> Distinguish field failures, test-detected faults, customer defects and bug-report counts. Report the time window and attribution procedure.</li>
+   <li><strong>Compare languages carefully.</strong> Use comparable samples and document how each metric is operationalised in each language.</li>
+   <li><strong>Evaluate prediction, not only association.</strong> Report measures such as precision, completeness/recall and correctness, and test whether models transfer across releases or projects.</li>
+   <li><strong>Consider interactions and correlated predictors.</strong> The Subramanyam and Krishnan analysis shows that the CBO–DIT interaction can change how individual coefficients should be interpreted.</li>
+  </ol>
+  <h3>Overall conclusion</h3>
+  <p>CK metrics can provide useful information about object-oriented design and may help identify fault-prone classes. However, their predictive value is not uniform. Class size can explain apparent relationships, and the remaining effects can vary across languages and systems. A robust claim of independent predictive validity therefore requires careful size control, clearly defined fault outcomes and replication across multiple software contexts.</p>
+ </div>
+</section>
+
+<section id="references">
+ <h2>9. References</h2>
+ <div class="refs">
+  <ol>
+   <li>Basili, V. R., Briand, L. C. and Melo, W. L. (1996). “A Validation of Object-Oriented Design Metrics as Quality Indicators.” <i>IEEE Transactions on Software Engineering</i>, 22(10), 751–761. <a href="https://doi.org/10.1109/32.544352">https://doi.org/10.1109/32.544352</a></li>
+   <li>Chidamber, S. R. and Kemerer, C. F. (1994). “A Metrics Suite for Object-Oriented Design.” <i>IEEE Transactions on Software Engineering</i>, 20(6), 476–493.</li>
+   <li>El Emam, K., Benlarbi, S., Goel, N. and Rai, S. N. (2001). “The Confounding Effect of Class Size on the Validity of Object-Oriented Metrics.” <i>IEEE Transactions on Software Engineering</i>, 27(7), 630–650. <a href="https://doi.org/10.1109/32.935855">https://doi.org/10.1109/32.935855</a></li>
+   <li>Gyimóthy, T., Ferenc, R. and Siket, I. (2005). “Empirical Validation of Object-Oriented Metrics on Open Source Software for Fault Prediction.” <i>IEEE Transactions on Software Engineering</i>, 31(10), 897–910. <a href="https://doi.org/10.1109/TSE.2005.112">https://doi.org/10.1109/TSE.2005.112</a></li>
+   <li>Subramanyam, R. and Krishnan, M. S. (2003). “Empirical Analysis of CK Metrics for Object-Oriented Design Complexity: Implications for Software Defects.” <i>IEEE Transactions on Software Engineering</i>, 29(4), 297–310. <a href="https://doi.org/10.1109/TSE.2003.1191795">https://doi.org/10.1109/TSE.2003.1191795</a></li>
+  </ol>
+ </div>
+ <p class="small" style="margin-top:10px">Source note: The 1999 NRC technical report titled “The Confounding Effect of Class Size on the Validity of Object-Oriented Metrics” is an earlier report of the research later published as El Emam et al. (2001). It is treated here as the same research, not as an additional independent empirical study.</p>
+</section>
+</main>
+<footer><div class="footin">CS6081 Research Methods · Literature Review · University of Limerick</div></footer>
+</body>
+</html>
