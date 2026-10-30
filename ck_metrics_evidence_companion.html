@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Evidence companion for a CS6081 literature review on Chidamber–Kemerer object-oriented metrics and software fault prediction.">
+<title>CK Metrics | Evidence Companion</title>
+<style>
+:root{
+  --burgundy:#702b3b; --burgundy-dark:#4b1d29; --ink:#242222;
+  --muted:#686363; --paper:#fff; --soft:#f6f4f2; --line:#e5dfdc;
+  --link:#8a3c50; --max:1040px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Arial,Helvetica,sans-serif}
+header{background:var(--burgundy-dark);color:#fff;padding:54px 22px 46px}
+.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}
+.eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;color:#ead8dc;font-weight:700}
+h1,h2,h3{font-family:Georgia,'Times New Roman',serif;line-height:1.2}
+h1{font-size:clamp(2.1rem,5vw,3.5rem);font-weight:normal;margin:12px 0}
+header p{max-width:780px;color:#f3e9eb;margin:12px 0 0}
+.meta{font-size:.9rem;color:#e6d4d9;margin-top:20px}
+nav{background:var(--soft);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:22px;flex-wrap:wrap;padding:13px 0}
+nav a{color:var(--burgundy-dark);font-size:.9rem;font-weight:700;text-decoration:none}
+nav a:hover{text-decoration:underline}
+main{padding:34px 0 70px}
+section{padding:22px 0 30px;border-bottom:1px solid var(--line)}
+h2{font-size:1.8rem;color:var(--burgundy-dark);font-weight:normal;margin:0 0 14px}
+h3{font-size:1.2rem;margin:0 0 8px;color:var(--burgundy)}
+p{margin:8px 0 14px}
+.lead{font-size:1.15rem;max-width:900px}
+.answer{border-left:4px solid var(--burgundy);padding:14px 18px;background:var(--soft);margin:20px 0 6px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{border:1px solid var(--line);padding:18px;border-radius:5px;background:#fff}
+.card p:last-child{margin-bottom:0}
+.small{font-size:.9rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin:14px 0 4px;font-size:.94rem}
+th,td{border:1px solid var(--line);padding:12px;text-align:left;vertical-align:top}
+th{background:var(--soft);color:var(--burgundy-dark)}
+a{color:var(--link)}
+ul{padding-left:22px}
+li{margin:8px 0}
+.callout{background:var(--soft);padding:16px 18px;border-radius:5px}
+footer{background:var(--burgundy-dark);color:#eee;padding:24px 0;font-size:.88rem}
+footer p{margin:0}
+@media(max-width:700px){
+ .wrap{width:min(100% - 28px,var(--max))}
+ .grid{grid-template-columns:1fr}
+ table{display:block;overflow-x:auto;white-space:normal}
+ th,td{min-width:140px;padding:9px}
+ nav .wrap{gap:12px 18px}
+}
+@media print{
+ nav{display:none} header{background:#fff;color:#000;padding:20px 0}
+ header p,.meta,.eyebrow{color:#333} body{font-size:11pt}
+ section{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <div class="eyebrow">CS6081 · Research Methods</div>
+  <h1>CK Metrics: Evidence Companion</h1>
+  <p>A concise guide to the studies behind the literature review: what they examined, how they measured faults, what they found, and where their evidence is limited.</p>
+  <div class="meta">Jagruti Badgujar · Chirag Aggarwal · Dhruv Punj · Snehal Patil</div>
+ </div>
+</header>
+<nav aria-label="Page navigation"><div class="wrap">
+ <a href="#overview">Overview</a><a href="#studies">The studies</a><a href="#limits">Limitations</a><a href="#questions">Discussion points</a><a href="#proposal">Proposed study</a><a href="#references">References</a>
+</div></nav>
+<main class="wrap">
+<section id="overview">
+ <h2>Overview</h2>
+ <p class="lead">Chidamber–Kemerer (CK) metrics describe object-oriented design characteristics. Later empirical studies tested whether those measurements help identify classes that are more likely to contain faults.</p>
+ <div class="answer"><strong>Evidence-based takeaway:</strong> CK metrics can help identify fault-prone classes, but class size explains part of their apparent predictive power. The evidence for coupling (CBO) is promising in some studies, including after size control in the C++ data examined by Subramanyam and Krishnan.</div>
+ <p class="small">The studies do not use identical systems, fault definitions, metric sets or statistical methods, so their results should not be treated as directly interchangeable.</p>
+</section>
+
+<section id="studies">
+ <h2>What each study examined</h2>
+ <div class="grid">
+  <article class="card">
+   <h3>Chidamber &amp; Kemerer (1994)</h3>
+   <p><strong>Purpose:</strong> Introduced the CK metrics and examined their theoretical properties.</p>
+   <p><strong>Data:</strong> 634 C++ classes from a software vendor and 1,459 Smalltalk classes from a chip maker.</p>
+   <p><strong>Method and result:</strong> Checked metrics against Weyuker’s nine properties and built a tool to collect metric values. RFC and WMC correlated at 0.9; several metrics failed Property 6.</p>
+   <p class="small"><strong>Important boundary:</strong> Faults were not measured. This paper evaluates metric properties, not fault prediction.</p>
+  </article>
+  <article class="card">
+   <h3>Basili et al. (1996)</h3>
+   <p><strong>Purpose:</strong> Tested whether object-oriented design metrics predict faulty classes.</p>
+   <p><strong>Data:</strong> 8 teams of 3 students built the same C++ video-rental system; 180 classes.</p>
+   <p><strong>Method and result:</strong> Logistic regression, first one metric at a time and then combined. Five of six metrics were significant; more children (NOC) were associated with fewer faults.</p>
+   <p class="small"><strong>Important boundary:</strong> Student-built, short-course projects may not represent professional systems; class size was not controlled.</p>
+  </article>
+  <article class="card">
+   <h3>El Emam et al. (2001)</h3>
+   <p><strong>Purpose:</strong> Tested whether earlier metric–fault relationships were confounded by class size.</p>
+   <p><strong>Data:</strong> Ericsson C++ telecom framework; 174 classes, of which 70 were faulty.</p>
+   <p><strong>Method and result:</strong> Logistic regression with and without non-comment lines of code as a size control. WMC, CBO and RFC were significant before size control; none remained significant after it.</p>
+   <p class="small"><strong>Important boundary:</strong> One system and a binary field-failure outcome; small effects may be difficult to detect in a sample of this size.</p>
+  </article>
+  <article class="card">
+   <h3>Subramanyam &amp; Krishnan (2003)</h3>
+   <p><strong>Purpose:</strong> Examined whether selected CK metrics retain an association with defects after controlling for size, and whether language matters.</p>
+   <p><strong>Data:</strong> Industry e-commerce suite; 405 C++ classes and 301 Java classes.</p>
+   <p><strong>Method and result:</strong> Weighted linear regression with lines of code as a control and a CBO × DIT interaction. Only WMC, CBO and DIT were studied. CBO increased defects in C++ but not Java.</p>
+   <p class="small"><strong>Important boundary:</strong> LCOM, NOC and RFC were not included, so the results cannot be extended to those metrics.</p>
+  </article>
+  <article class="card">
+   <h3>Gyimóthy et al. (2005)</h3>
+   <p><strong>Purpose:</strong> Tested CK metrics on a large open-source system.</p>
+   <p><strong>Data:</strong> Mozilla 1.6; 3,192 classes, with additional versions 1.0–1.6 considered.</p>
+   <p><strong>Method and result:</strong> Logistic and linear regression, decision trees and neural networks. Seven of eight metrics were significant; NOC was not (p = 0.55). A combined model classified about 70% of classes correctly.</p>
+   <p class="small"><strong>Important boundary:</strong> Class size was not controlled; lines of code predicted almost as well as CBO.</p>
+  </article>
+ </div>
+
+ <h3 style="margin-top:28px">At-a-glance comparison</h3>
+ <table>
+  <thead><tr><th>Study</th><th>Fault measure</th><th>Size controlled?</th><th>Key point</th></tr></thead>
+  <tbody>
+   <tr><td>Chidamber &amp; Kemerer (1994)</td><td>Not measured</td><td>Not applicable</td><td>Established and evaluated metric properties, not fault prediction.</td></tr>
+   <tr><td>Basili et al. (1996)</td><td>Faults found by an independent test team</td><td>No</td><td>Five of six metrics significant; NOC associated with fewer faults.</td></tr>
+   <tr><td>El Emam et al. (2001)</td><td>User-reported field failures (yes/no)</td><td>Yes</td><td>WMC, CBO and RFC lost significance after size control.</td></tr>
+   <tr><td>Subramanyam &amp; Krishnan (2003)</td><td>Defect counts from acceptance testing and customer reports</td><td>Yes</td><td>CBO association differed between C++ and Java.</td></tr>
+   <tr><td>Gyimóthy et al. (2005)</td><td>Bug reports linked to classes</td><td>No</td><td>Seven of eight metrics significant; size remains a competing explanation.</td></tr>
+  </tbody>
+ </table>
+</section>
+
+<section id="limits">
+ <h2>Why the limitations matter</h2>
+ <ul>
+  <li><strong>The original CK paper tested theory, not outcomes.</strong> Passing Weyuker’s properties shows that a metric is well-formed; it does not establish that it predicts faults.</li>
+  <li><strong>Basili used student projects.</strong> The controlled course setting is useful, but professional teams and larger systems may behave differently. Size was not controlled.</li>
+  <li><strong>El Emam studied one system and a yes/no outcome.</strong> With 174 classes, smaller effects may not reach statistical significance after size is added.</li>
+  <li><strong>Subramanyam and Krishnan tested only three metrics.</strong> Their findings concern WMC, CBO and DIT—not NOC, RFC or LCOM.</li>
+  <li><strong>Gyimóthy did not control for size.</strong> Lines of code predicted almost as well as CBO, so some of CBO’s apparent strength may reflect class size.</li>
+  <li><strong>Fault definitions differ.</strong> Test faults, field failures, defect counts and bug reports capture different outcomes and can contribute to differing results.</li>
+ </ul>
+</section>
+
+<section id="questions">
+ <h2>Discussion points</h2>
+ <div class="card">
+  <h3>How do researchers control for class size?</h3>
+  <p>They include a size measure, such as lines of code, in the statistical model alongside the CK metric. If the CK metric no longer has a statistically significant association, size may have explained much of the original relationship.</p>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <h3>Why might NOC show different results?</h3>
+  <p>In Basili’s study, classes with more children were associated with fewer faults. In Mozilla, NOC was not significant (p = 0.55). The systems and distributions of inheritance may differ.</p>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <h3>Why do El Emam and Subramanyam &amp; Krishnan differ?</h3>
+  <p>They used different systems, fault definitions and analyses. Subramanyam and Krishnan also report a language difference: CBO was associated with defects in their C++ data, but not their Java data.</p>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <h3>Why pay attention to CBO?</h3>
+  <p>CBO is significant in Basili’s results, performs strongly in Gyimóthy’s Mozilla analysis, and has an association with defects after size control in the C++ data reported by Subramanyam and Krishnan. However, it is not universally predictive.</p>
+ </div>
+</section>
+
+<section id="proposal">
+ <h2>Proposed study</h2>
+ <p class="lead"><strong>Research question:</strong> Does coupling (CBO) still predict faults once class size is controlled, across languages?</p>
+ <p><strong>Rationale:</strong> A class connected to many other classes may be affected when those dependencies change. The proposed study would test whether CBO contributes information beyond class size.</p>
+ <table>
+  <thead><tr><th>Design choice</th><th>Proposed plan</th><th>Reason</th></tr></thead>
+  <tbody>
+   <tr><td>Systems</td><td>Six or more open-source projects, split between Java and C++.</td><td>Avoid relying on one system.</td></tr>
+   <tr><td>Fault measure</td><td>Bug-fix commits linked to classes, counted per class.</td><td>Use one shared definition across systems.</td></tr>
+   <tr><td>Measures</td><td>All six CK metrics plus lines of code.</td><td>Evaluate the full metric set rather than a subset.</td></tr>
+   <tr><td>Analysis</td><td>Regression with size as a control, run separately by language.</td><td>Separate the contribution of CBO from size and language.</td></tr>
+  </tbody>
+ </table>
+ <p class="callout"><strong>Proposed—not established:</strong> The study would test whether CBO remains significant after size control in both languages. This is a research expectation to evaluate, not a result already demonstrated by the reviewed papers.</p>
+</section>
+
+<section id="references">
+ <h2>References</h2>
+ <ol>
+  <li>Basili, V.R., Briand, L.C. and Melo, W.L. (1996). ‘A validation of object-oriented design metrics as quality indicators’. <em>IEEE Transactions on Software Engineering</em>, 22(10), 751–761. <a href="https://doi.org/10.1109/32.544352">doi:10.1109/32.544352</a>.</li>
+  <li>Chidamber, S.R. and Kemerer, C.F. (1994). ‘A metrics suite for object oriented design’. <em>IEEE Transactions on Software Engineering</em>, 20(6), 476–493. <a href="https://doi.org/10.1109/32.295895">doi:10.1109/32.295895</a>.</li>
+  <li>El Emam, K., Benlarbi, S., Goel, N. and Rai, S.N. (2001). ‘The confounding effect of class size on the validity of object-oriented metrics’. <em>IEEE Transactions on Software Engineering</em>, 27(7), 630–650. <a href="https://doi.org/10.1109/32.935855">doi:10.1109/32.935855</a>.</li>
+  <li>Gyimóthy, T., Ferenc, R. and Siket, I. (2005). ‘Empirical validation of object-oriented metrics on open source software for fault prediction’. <em>IEEE Transactions on Software Engineering</em>, 31(10), 897–910. <a href="https://doi.org/10.1109/TSE.2005.112">doi:10.1109/TSE.2005.112</a>.</li>
+  <li>Subramanyam, R. and Krishnan, M.S. (2003). ‘Empirical analysis of CK metrics for object-oriented design complexity: implications for software defects’. <em>IEEE Transactions on Software Engineering</em>, 29(4), 297–310. <a href="https://doi.org/10.1109/TSE.2003.1191795">doi:10.1109/TSE.2003.1191795</a>.</li>
+ </ol>
+</section>
+</main>
+<footer><div class="wrap"><p>CS6081 Research Methods · Literature-review evidence companion · Prepared from the supplied “CK Poster – Full Evidence” document.</p></div></footer>
+</body>
+</html>
